@@ -3,6 +3,7 @@
     public class Character
     {
         public const int INITIAL_HEALTH = 1000;
+        public const int BASE_DAMAGE = 100;
 
         private int _health = INITIAL_HEALTH;
         public bool IsAlive { get; set; } = true;
@@ -29,19 +30,29 @@
                 return;
             }
 
-            var damage = 100;
+            var damage = BASE_DAMAGE;
 
             if ((Level-5) >= enemy.Level)
             {
-                damage += 50;
+                damage = GetWeakEnemyDamage();
             }
 
             if ((enemy.Level -5) >= Level)
             {
-                damage -= 50;
+                damage = GetStrongEnemyDamage();
             }
 
             enemy.Health -= damage;
+        }
+
+        public static int GetStrongEnemyDamage()
+        {
+            return BASE_DAMAGE - 50;
+        }
+
+        public static int GetWeakEnemyDamage()
+        {
+            return BASE_DAMAGE + 50;
         }
 
         public void HealCharacter(Character characterToHeal)

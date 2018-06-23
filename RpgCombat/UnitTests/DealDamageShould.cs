@@ -13,7 +13,7 @@ namespace UnitTests
 
             me.DealDamageTo(enemy);
 
-            Assert.Equal(Character.INITIAL_HEALTH - 100, enemy.Health);
+            Assert.Equal(Character.INITIAL_HEALTH - Character.BASE_DAMAGE, enemy.Health);
         }
 
         [Fact]
@@ -57,7 +57,8 @@ namespace UnitTests
 
             me.DealDamageTo(enemy);
 
-            Assert.Equal(Character.INITIAL_HEALTH - 150, enemy.Health);
+            int expected = Character.INITIAL_HEALTH - Character.GetWeakEnemyDamage();
+            Assert.Equal(expected, enemy.Health);
         }
 
         [Fact]
@@ -68,7 +69,8 @@ namespace UnitTests
 
             me.DealDamageTo(enemy);
 
-            Assert.Equal(Character.INITIAL_HEALTH - 50, enemy.Health);
+            int expected = Character.INITIAL_HEALTH - Character.GetStrongEnemyDamage();
+            Assert.Equal(expected, enemy.Health);
         }
     }
 }
