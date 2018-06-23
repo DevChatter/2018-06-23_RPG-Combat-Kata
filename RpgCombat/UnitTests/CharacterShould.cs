@@ -26,7 +26,7 @@ namespace UnitTests
         {
             var character = new Character();
 
-            Assert.Equal(1000, character.Health);
+            Assert.Equal(Character.INITIAL_HEALTH, character.Health);
         }
     }
 }

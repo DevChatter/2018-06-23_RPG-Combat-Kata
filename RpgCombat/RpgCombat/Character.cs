@@ -2,7 +2,9 @@
 {
     public class Character
     {
-        private int _health = 1000;
+        public const int INITIAL_HEALTH = 1000;
+
+        private int _health = INITIAL_HEALTH;
         public bool IsAlive { get; set; } = true;
         public int Level { get; set; } = 1;
 
@@ -32,9 +34,9 @@
                 characterToHeal.Health += 100;
             }
 
-            if (characterToHeal.Health > 1000)
+            if (characterToHeal.Health > INITIAL_HEALTH)
             {
-                characterToHeal.Health = 1000;
+                characterToHeal.Health = INITIAL_HEALTH;
             }
         }
     }

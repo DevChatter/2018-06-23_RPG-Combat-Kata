@@ -13,7 +13,7 @@ namespace UnitTests
 
             me.DealDamageTo(enemy);
 
-            Assert.Equal(900, enemy.Health);
+            Assert.Equal(Character.INITIAL_HEALTH - 100, enemy.Health);
         }
 
         [Fact]

@@ -25,7 +25,7 @@ namespace UnitTests
             me.HealCharacter(toHeal);
             me.HealCharacter(toHeal);
 
-            Assert.Equal(1000, toHeal.Health);
+            Assert.Equal(Character.INITIAL_HEALTH, toHeal.Health);
         }
 
         [Fact]
