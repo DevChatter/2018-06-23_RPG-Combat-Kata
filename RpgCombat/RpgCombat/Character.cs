@@ -1,10 +1,19 @@
-﻿namespace RpgCombat
+﻿using System;
+
+namespace RpgCombat
 {
     public class Character
     {
+        public FightingStyle FightingStyle { get; }
         public const int INITIAL_HEALTH = 1000;
         public const int BASE_DAMAGE = 100;
 
+        public Character(FightingStyle fightingStyle = FightingStyle.Melee)
+        {
+            FightingStyle = fightingStyle;
+        }
+
+        public ILocation Location { get; set; } = new DistanceBasedLocation(0);
         private int _health = INITIAL_HEALTH;
         public bool IsAlive { get; set; } = true;
         public int Level { get; set; } = 1;
@@ -25,24 +34,47 @@
 
         public void DealDamageTo(Character enemy)
         {
-            if (enemy == this)
+            if (enemy == this || EnemyOutOfRange(enemy))
             {
                 return;
             }
 
+            int damage = GetDamageAmount(enemy);
+
+            enemy.Health -= damage;
+        }
+
+        private bool EnemyOutOfRange(Character enemy)
+        {
+            int range = 0;
+            switch (FightingStyle)
+            {
+                case FightingStyle.Melee:
+                    range = 2;
+                    break;
+                case FightingStyle.Ranged:
+                    range = 20;
+                    break;
+            }
+
+            return enemy.Location.DistanceFrom(Location) > range;
+        }
+
+        private int GetDamageAmount(Character enemy)
+        {
             var damage = BASE_DAMAGE;
 
-            if ((Level-5) >= enemy.Level)
+            if ((Level - 5) >= enemy.Level)
             {
                 damage = GetWeakEnemyDamage();
             }
 
-            if ((enemy.Level -5) >= Level)
+            if ((enemy.Level - 5) >= Level)
             {
                 damage = GetStrongEnemyDamage();
             }
 
-            enemy.Health -= damage;
+            return damage;
         }
 
         public static int GetStrongEnemyDamage()
