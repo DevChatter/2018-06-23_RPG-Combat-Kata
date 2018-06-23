@@ -24,11 +24,33 @@
 
         public void DealDamageTo(Character enemy)
         {
-            enemy.Health -= 100;
+            if (enemy == this)
+            {
+                return;
+            }
+
+            var damage = 100;
+
+            if ((Level-5) >= enemy.Level)
+            {
+                damage += 50;
+            }
+
+            if ((enemy.Level -5) >= Level)
+            {
+                damage -= 50;
+            }
+
+            enemy.Health -= damage;
         }
 
         public void HealCharacter(Character characterToHeal)
         {
+            if (characterToHeal != this)
+            {
+                return;
+            }
+
             if (characterToHeal.IsAlive)
             {
                 characterToHeal.Health += 100;
