@@ -37,16 +37,16 @@ namespace RpgCombat
         }
 
 
-        public void DealDamageTo(Character enemy)
+        public void DealDamageTo(Character target)
         {
-            if (enemy == this || EnemyOutOfRange(enemy))
+            if (target == this || IsAnAlly(target) || EnemyOutOfRange(target))
             {
                 return;
             }
 
-            int damage = GetDamageAmount(enemy);
+            int damage = GetDamageAmount(target);
 
-            enemy.Health -= damage;
+            target.Health -= damage;
         }
 
         private bool EnemyOutOfRange(Character enemy)
@@ -94,7 +94,7 @@ namespace RpgCombat
 
         public void HealCharacter(Character characterToHeal)
         {
-            if (characterToHeal != this)
+            if (characterToHeal != this && !IsAnAlly(characterToHeal))
             {
                 return;
             }

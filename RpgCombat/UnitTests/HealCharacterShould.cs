@@ -6,7 +6,7 @@ namespace UnitTests
     public class HealCharacterShould
     {
         [Fact]
-        public void DoNothing_GivenTryingToHealSomeoneElse()
+        public void DoNothing_GivenTryingToHealNonAlly()
         {
             var me = new Character();
             var toHeal = new Character { Health = 1 };
@@ -14,6 +14,18 @@ namespace UnitTests
             me.HealCharacter(toHeal);
 
             Assert.Equal(1, toHeal.Health);
+        }
+
+        [Fact]
+        public void RaiseHealth_GivenTryingToHealAlly()
+        {
+            var faction = new Faction();
+            var me = new Character{Factions = { faction}};
+            var ally = new Character { Factions = { faction}, Health = 1 };
+
+            me.HealCharacter(ally);
+
+            Assert.Equal(101, ally.Health);
         }
 
         [Fact]

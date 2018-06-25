@@ -50,6 +50,18 @@ namespace UnitTests
         }
 
         [Fact]
+        public void NotDealDamageToAllies()
+        {
+            var faction = new Faction();
+            var me = new Character{Factions = { faction }};
+            var ally = new Character{Factions = { faction }};
+
+            me.DealDamageTo(ally);
+
+            Assert.Equal(Character.INITIAL_HEALTH, ally.Health);
+        }
+
+        [Fact]
         public void DealMoreDamage_GivenWeakerEnemy()
         {
             var me = new Character { Level = 6 };
