@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 
 namespace RpgCombat
 {
-    public class Character
+    public class Character : IDamageable
     {
         public FightingStyle FightingStyle { get; }
         public const int INITIAL_HEALTH = 1000;
@@ -36,10 +34,9 @@ namespace RpgCombat
             }
         }
 
-
-        public void DealDamageTo(Character target)
+        public void DealDamageTo(IDamageable target)
         {
-            if (target == this || IsAnAlly(target) || EnemyOutOfRange(target))
+            if (target == this || IsInvalidTarget(target))
             {
                 return;
             }
@@ -47,6 +44,16 @@ namespace RpgCombat
             int damage = GetDamageAmount(target);
 
             target.Health -= damage;
+        }
+
+        private bool IsInvalidTarget(IDamageable target)
+        {
+            if (target is Character character)
+            {
+                return IsAnAlly(character) || EnemyOutOfRange(character);
+            }
+
+            return false;
         }
 
         private bool EnemyOutOfRange(Character enemy)
@@ -65,18 +72,21 @@ namespace RpgCombat
             return enemy.Location.DistanceFrom(Location) > range;
         }
 
-        private int GetDamageAmount(Character enemy)
+        private int GetDamageAmount(IDamageable enemy)
         {
             var damage = BASE_DAMAGE;
 
-            if ((Level - 5) >= enemy.Level)
+            if (enemy is Character character)
             {
-                damage = GetWeakEnemyDamage();
-            }
+                if ((Level - 5) >= character.Level)
+                {
+                    damage = GetWeakEnemyDamage();
+                }
 
-            if ((enemy.Level - 5) >= Level)
-            {
-                damage = GetStrongEnemyDamage();
+                if ((character.Level - 5) >= Level)
+                {
+                    damage = GetStrongEnemyDamage();
+                }
             }
 
             return damage;
