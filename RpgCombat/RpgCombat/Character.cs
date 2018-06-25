@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RpgCombat
 {
@@ -117,5 +119,7 @@ namespace RpgCombat
         {
             Factions.Remove(faction);
         }
+
+        public bool IsAnAlly(Character other) => Factions.Overlaps(other.Factions);
     }
 }
