@@ -28,5 +28,13 @@ namespace UnitTests
 
             Assert.Equal(Character.INITIAL_HEALTH, character.Health);
         }
+
+        [Fact]
+        public void StartWithoutAnyFactions()
+        {
+            var character = new Character();
+
+            Assert.Empty(character.Factions);
+        }
     }
 }

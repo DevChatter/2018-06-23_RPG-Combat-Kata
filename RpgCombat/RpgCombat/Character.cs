@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace RpgCombat
 {
@@ -7,6 +8,7 @@ namespace RpgCombat
         public FightingStyle FightingStyle { get; }
         public const int INITIAL_HEALTH = 1000;
         public const int BASE_DAMAGE = 100;
+        public ISet<Faction> Factions { get; } = new HashSet<Faction>();
 
         public Character(FightingStyle fightingStyle = FightingStyle.Melee)
         {
@@ -31,6 +33,7 @@ namespace RpgCombat
                 }
             }
         }
+
 
         public void DealDamageTo(Character enemy)
         {
@@ -103,6 +106,16 @@ namespace RpgCombat
             {
                 characterToHeal.Health = INITIAL_HEALTH;
             }
+        }
+
+        public void JoinFaction(Faction faction)
+        {
+            Factions.Add(faction);
+        }
+
+        public void LeaveFaction(Faction faction)
+        {
+            Factions.Remove(faction);
         }
     }
 }
